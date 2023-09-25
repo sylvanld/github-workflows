@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r ${{ inputs.requirements_file }}
       - name: Run tests using pytest
-        run: python -m pytest ${{ pytest_tests_folder }}
+        run: python -m pytest ${{ inputs.pytest_tests_folder }}
 
   lint:
     if: inputs.linting_enabled
