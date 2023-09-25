@@ -60,8 +60,8 @@ jobs:
         run: |
           if [ "${{ inputs.pytest_enabled }}" = "true" ];
           then
-            linted_folders=${{ inputs.source_directory }}
-          else
             linted_folders="${{ inputs.source_directory }} ${{ inputs.pytest_tests_folder }}"
+          else
+            linted_folders="${{ inputs.source_directory }}"
           fi
           flake8 --max-line-length 120 $linted_folders
