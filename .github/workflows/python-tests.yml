@@ -1,0 +1,67 @@
+
+name: "Python Tests"
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        type: string
+        required: true
+      requirements_file:
+        type: string
+        required: false
+        default: requirements/test.txt
+      source_directory:
+        type: string
+        required: false
+        default: src/
+      pytest_enabled:
+        type: boolean
+        default: false
+        required: false
+      pytest_tests_folder:
+        type: string
+        default: tests/
+        required: false
+      linting_enabled:
+        type: boolean
+        default: false
+        required: false
+
+jobs:
+  pytest:
+    if: inputs.pytest_enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '${{ inputs.python_version }}' 
+      - name: Install dependencies
+        run: pip install -r ${{ inputs.requirements_file }}
+      - name: Run tests using pytest
+        run: python -m pytest ${{ pytest_tests_folder }}
+
+  lint:
+    if: inputs.linting_enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '${{ inputs.python_version }}' 
+      - name: Install dependencies
+        run: pip install -r ${{ inputs.requirements_file }}
+      - name: Check that imports are sorted in appropriate order
+        run: isort --profile black --check ${{ inputs.source_directory }}
+      - name: Check that code formatting is compliant with black
+        run: black --line-length 120 --check ${{ inputs.source_directory }}
+      - name: Check that code is pep8 compliant
+        run: |
+          if [ "${{ inputs.pytest_enabled }}" = "true" ];
+          then
+            linted_folders=${{ inputs.source_directory }}
+          else
+            linted_folders="${{ inputs.source_directory }} ${{ inputs.pytest_tests_folder }}"
+          fi
+          flake8 --max-line-length 120 $linted_folders
