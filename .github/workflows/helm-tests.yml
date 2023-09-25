@@ -1,0 +1,24 @@
+
+name: "Test Helm Chart"
+
+on:
+  workflow_call:
+    inputs:
+      helm_version:
+        type: string
+        required: true
+      helm_chart_path:
+        type: string
+        required: false
+        default: chart/
+
+jobs:
+  validate-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v3
+        with:
+          version: "${{ inputs.helm_version }}"
+      - name: "Lint helm chart"
+        run: helm lint ${{ inputs.helm_chart_path }}
