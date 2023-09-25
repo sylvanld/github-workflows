@@ -4,6 +4,18 @@ name: "Python Tests"
 on:
   workflow_call:
     inputs:
+      linting_enabled:
+        type: boolean
+        default: false
+        required: false
+      pytest_enabled:
+        type: boolean
+        default: false
+        required: false
+      pytest_tests_folder:
+        type: string
+        default: tests/
+        required: false
       python_version:
         type: string
         required: true
@@ -15,18 +27,6 @@ on:
         type: string
         required: false
         default: src/
-      pytest_enabled:
-        type: boolean
-        default: false
-        required: false
-      pytest_tests_folder:
-        type: string
-        default: tests/
-        required: false
-      linting_enabled:
-        type: boolean
-        default: false
-        required: false
 
 jobs:
   pytest:
