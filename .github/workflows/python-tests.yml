@@ -29,7 +29,7 @@ on:
         default: src/
 
 jobs:
-  pytest:
+  run-unit-tests:
     if: inputs.pytest_enabled
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +42,7 @@ jobs:
       - name: Run tests using pytest
         run: python -m pytest ${{ inputs.pytest_tests_folder }}
 
-  lint:
+  validate-code-quality:
     if: inputs.linting_enabled
     runs-on: ubuntu-latest
     steps:
