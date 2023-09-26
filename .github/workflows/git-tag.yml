@@ -1,0 +1,20 @@
+
+name: "Create git tag"
+
+on:
+  workflow_call:
+    inputs:
+      git_tag:
+        type: string
+        required: true
+
+jobs:
+  release-git-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: "Create and push git tag ${{ inputs.git_tag }}"
+        run: |
+          git tag "${{ inputs.git_tag }}"
+          git push --tags
