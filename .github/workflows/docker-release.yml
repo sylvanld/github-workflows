@@ -10,6 +10,10 @@ on:
       docker_image_tags:
         type: string
         required: true
+      docker_build_platform:
+        type: string
+        required: false
+        default: linux/amd64,linux/arm64
       docker_image_readme:
         type: string
         required: false
@@ -49,3 +53,4 @@ jobs:
         with:
           push: true
           tags: "${{ inputs.docker_image_name }}:${{ inputs.docker_image_tags }}"
+          platforms: "${{ inputs.docker_build_platform }}"
