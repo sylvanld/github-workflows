@@ -1,0 +1,35 @@
+
+name: "Deploy Helm Chart"
+
+on:
+  workflow_call:
+    inputs:
+      helm_chart_path:
+        type: string
+        required: false
+        default: chart/
+      helm_chart_values:
+        type: string
+        required: false
+      helm_release_name:
+        type: string
+        required: true
+      helm_version:
+        type: string
+        required: true
+      k8s_namespace:
+        type: string
+        required: true
+
+jobs:
+  install-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v3
+        with:
+           version: "${{ inputs.helm_version }}"
+      - name: "Deploy chart"
+        run: |
+          echo "${{ inputs.helm_chart_values }}"
+          #helm install -n "${{ inputs.k8s_namespace }}" --values - "${{ inputs.helm_release_name }}" "${{ inputs.helm_chart_path }}"
