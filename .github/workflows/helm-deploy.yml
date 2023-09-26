@@ -26,10 +26,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - uses: azure/setup-helm@v3
         with:
            version: "${{ inputs.helm_version }}"
+      
       - name: "Deploy chart"
         run: |
-          echo "${{ inputs.helm_chart_values }}"
-          #helm install -n "${{ inputs.k8s_namespace }}" --values - "${{ inputs.helm_release_name }}" "${{ inputs.helm_chart_path }}"
+          echo "${{ inputs.helm_chart_values }}"                                                \
+            | helm install "${{ inputs.helm_release_name }}" "${{ inputs.helm_chart_path }}"    \
+              --values "-" --namespace "${{ inputs.k8s_namespace }}"
