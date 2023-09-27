@@ -34,5 +34,5 @@ jobs:
       - name: "Deploy chart"
         run: |
           echo "${{ inputs.helm_chart_values }}"                                                \
-            | helm install "${{ inputs.helm_release_name }}" "${{ inputs.helm_chart_path }}"    \
+            | helm template "${{ inputs.helm_release_name }}" "${{ inputs.helm_chart_path }}"    \
               --values "-" --namespace "${{ inputs.k8s_namespace }}"
