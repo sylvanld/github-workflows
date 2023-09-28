@@ -20,6 +20,9 @@ on:
       k8s_namespace:
         type: string
         required: true
+    secrets:
+        k8s_config:
+          required: true
 
 jobs:
   install-chart:
@@ -30,9 +33,17 @@ jobs:
       - uses: azure/setup-helm@v3
         with:
            version: "${{ inputs.helm_version }}"
+
+      - name: "Create k8s config"
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.k8s_config }}" > ~/.kube/config
       
       - name: "Deploy chart"
         run: |
           echo "${{ inputs.helm_chart_values }}"                                                \
-            | helm template "${{ inputs.helm_release_name }}" "${{ inputs.helm_chart_path }}"    \
-              --values "-" --namespace "${{ inputs.k8s_namespace }}"
+            | helm upgrade "${{ inputs.helm_release_name }}" "${{ inputs.helm_chart_path }}"    \
+              --install --values "-" --namespace "${{ inputs.k8s_namespace }}"
+      
+      - name: "Delete k8s config"
+        run: rm ~/.kube/config
