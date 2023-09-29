@@ -58,11 +58,11 @@ jobs:
           git fetch --tags
           git checkout "tags/${{ inputs.git_tag }}"
 
-      - name: "Get git commit hash"
-        id: git-ref
-        run: |
-          COMMIT_HASH=$(git rev-parse --verify HEAD)
-          echo "commit-hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
+      # - name: "Get git commit hash"
+      #   id: git-ref
+      #   run: |
+      #     COMMIT_HASH=$(git rev-parse --verify HEAD)
+      #     echo "commit-hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
 
       - name: Build and push
         run: |
