@@ -58,15 +58,16 @@ jobs:
           git fetch --tags
           git checkout "tags/${{ inputs.git_tag }}"
 
-      - name: "Debug"
-        run: cat shopping/api/metadata.py
+      - name: "Get git commit hash"
+        id: git-ref
+        run: |
+          COMMIT_HASH=$(git rev-parse --verify HEAD)
+          echo "commit-hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
       
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          context: "${{ github.server_url }}/${{ github.repository }}.git#${{ steps.git-ref.outputs.commit-hash }}"
           push: true
           tags: "${{ inputs.docker_image_name }}:${{ inputs.docker_image_tags }}"
           platforms: "${{ inputs.docker_build_platform }}"
-
-      - name: "Debug"
-        run: cat shopping/api/metadata.py
