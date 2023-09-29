@@ -28,12 +28,19 @@ on:
       docker_registry_password:
         type: string
         required: false
+      git_branch:
+        type: string
+        required: false
 
 jobs:
   release-docker-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: "Checkout selected branch"
+        if: inputs.git_branch
+        run: git checkout "${{ inputs.git_branch }}"
 
       - name: Login to Container Registry
         uses: docker/login-action@v3
