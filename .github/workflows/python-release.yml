@@ -1,0 +1,35 @@
+
+name: "Release Python Package"
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        type: string
+        required: true
+      repository_username:
+        type: string
+        required: true
+      repository_password:
+        type: string
+        required: true
+
+jobs:
+  release-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4.7.1
+        with:
+          python-version: ${{ inputs.python_version }}
+
+      - run: |
+          pip install . twine
+          python -m build
+          twine upload dist/*
+
+      - uses: pypa/gh-action-pypi-publish@v1.8.11
+        with:
+          user: ${{ inputs.repository_username }}
+          password: ${{ inputs.repository_password }}
