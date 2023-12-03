@@ -7,11 +7,10 @@ on:
       python_version:
         type: string
         required: true
+    secrets:
       repository_username:
-        type: string
         required: true
       repository_password:
-        type: string
         required: true
 
 jobs:
