@@ -4,6 +4,9 @@ name: "Release Python Package"
 on:
   workflow_call:
     inputs:
+      git_tag:
+        type: string
+        required: true
       python_version:
         type: string
         required: true
@@ -18,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_tag }}
 
       - uses: actions/setup-python@v4.7.1
         with:
