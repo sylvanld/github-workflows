@@ -39,6 +39,3 @@ jobs:
 
       - name: Distribute janeiro package on PyPI
         uses: pypa/gh-action-pypi-publish@v1.8.11
-        with:
-          user: ${{ inputs.repository_username }}
-          password: ${{ inputs.repository_password }}
