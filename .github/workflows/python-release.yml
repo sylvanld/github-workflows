@@ -28,12 +28,17 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
 
-      - run: |
-          pip install . twine
-          python setup.py sdist bdist_wheel
-          twine upload dist/*
+      - name: Install build dependencies
+        run: pip install build twine
 
-      - uses: pypa/gh-action-pypi-publish@v1.8.11
+      - name: Install python janeiro package
+        run: pip install .
+      
+      - name: Build python janeiro package
+        run: python -m build
+
+      - name: Distribute janeiro package on PyPI
+        uses: pypa/gh-action-pypi-publish@v1.8.11
         with:
           user: ${{ inputs.repository_username }}
           password: ${{ inputs.repository_password }}
