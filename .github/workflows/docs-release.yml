@@ -1,0 +1,21 @@
+
+on:
+  workflow_call:
+    inputs:
+      git_tag:
+        type: string
+        required: true
+
+jobs:
+  release-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_tag }}
+
+      - name: Install build dependencies
+        run: pip install mkdocs mkdocs-material mike
+
+      - name: Build and deploy documentation
+        run: mike deploy ${{ inputs.git_tag }}
