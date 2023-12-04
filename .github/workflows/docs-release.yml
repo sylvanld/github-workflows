@@ -23,4 +23,4 @@ jobs:
           git config --global user.name 'Gitub Action'
 
       - name: Build and deploy documentation
-        run: mike deploy --update-aliases ${{ inputs.git_tag }} latest
+        run: mike deploy --push --update-aliases ${{ inputs.git_tag }} latest
