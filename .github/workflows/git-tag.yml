@@ -17,6 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: "Configure git user as Gitub Action"
+        run: |
+          git config --global user.email 'action@github.com'
+          git config --global user.name 'Gitub Action'
+          git commit -m 'Release version ${{ inputs.version }}'
+
       - name: "Run before script"
         if: inputs.run_before
         run: |
