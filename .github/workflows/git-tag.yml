@@ -29,7 +29,7 @@ jobs:
           chmod +x ./before_script
           ./before_script
           rm ./before_script
-          git commit -m 'Release version ${{ inputs.version }}'
+          git commit -m 'Release version ${{ inputs.git_tag }}'
       
       - name: "Create and push git tag ${{ inputs.git_tag }}"
         run: |
