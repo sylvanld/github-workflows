@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r ${{ inputs.requirements_file }}
       - name: Check that imports are sorted in appropriate order
-        run: isort --profile black --check ${{ inputs.source_directory }}
+        run: isort -l 120 --profile black --check ${{ inputs.source_directory }}
       - name: Check that code formatting is compliant with black
         run: black --line-length 120 --check ${{ inputs.source_directory }}
       - name: Check that code is pep8 compliant
